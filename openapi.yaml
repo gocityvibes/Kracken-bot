@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: Kraken Bot API
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /api/health:
+    get:
+      summary: Check service health
+      responses:
+        '200': { description: OK }
+  /api/state:
+    get:
+      summary: Get current state
+      responses:
+        '200': { description: OK }
+  /api/config:
+    get:
+      summary: Get config
+      responses:
+        '200': { description: OK }
+    post:
+      summary: Update config
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200': { description: OK }
+  /api/csv/trades:
+    get:
+      summary: Download trades CSV
+      responses:
+        '200':
+          description: CSV
+          content:
+            text/csv: { schema: { type: string, format: binary } }
+  /api/csv/backtest:
+    get:
+      summary: Download backtest CSV
+      responses:
+        '200':
+          description: CSV
+          content:
+            text/csv: { schema: { type: string, format: binary } }
+  /api/bot/start:
+    post:
+      summary: Start the bot (ON)
+      parameters:
+        - in: query
+          name: mode
+          schema: { type: string, enum: [paper, live, backtest] }
+          description: Trading mode
+      responses:
+        '200': { description: OK }
+  /api/bot/stop:
+    post:
+      summary: Stop the bot (OFF)
+      responses:
+        '200': { description: OK }
+  /api/bot/toggle:
+    post:
+      summary: Toggle bot on/off
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                on: { type: boolean }
+      responses:
+        '200': { description: OK }
+  # Backtest endpoints removed in live-only build
+        '200': { description: OK }
